@@ -29,6 +29,18 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 	</properties>
+	
+	
+	<repositories>
+<repository>
+<id>nexus</id>
+<name>remoterepo practice</name>
+<url>http://52.64.151.42:8081/repository/remoterepo/</url>
+</repository>
+</repositories>
+
+	
+	
 
 	<dependencies>
 		
