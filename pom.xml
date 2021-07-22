@@ -35,7 +35,7 @@
 <repository>
 <id>nexus</id>
 <name>remoterepo practice</name>
-<url>http://52.64.151.42:8081/repository/remoterepo/</url>
+<url>http://52.64.151.42:8081/repository/promavanurl/</url>
 </repository>
 </repositories>
 
@@ -43,13 +43,13 @@
 	
 
 	<dependencies>
-		
+	<!--	
 		<dependency>
   <groupId>com.mss</groupId>
   <artifactId>mail</artifactId>
   <version>1.0.0</version>
 </dependency>
-		
+	-->	
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
