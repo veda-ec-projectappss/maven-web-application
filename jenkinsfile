@@ -1,0 +1,42 @@
+node
+{
+    
+ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * * ')])])
+    
+def mavenHome = tool name: "maven 3.8.1"
+
+stage('codecheckout')
+{
+
+git branch: 'development', credentialsId: '38e76476-d730-4f1f-b1f8-25ee350a5239', url: 'https://github.com/veda-ec-projectappss/maven-web-application.git'
+
+}
+stage('build')
+{
+
+sh "${mavenHome}/bin/mvn clean package"
+// sh "/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/maven_3.8.1/bin/mvn clean package"
+}
+stage('sonarqubereport')
+{
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+stage('nexusartifact')
+{
+sh "${mavenHome}/bin/mvn deploy"
+}
+stage('deployontomcat')
+{
+    sshagent(['c2f95045-cb0e-4e68-a1ea-a776e1661740']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.55.161.20:/opt/apache-tomcat-9.0.50/webapps/" 
+}
+}
+stage('emialnotification')
+{
+emailext body: '''build done..
+
+Thanks,
+Gopi Nallamothu''', subject: 'build done', to: 'nallamothugit@gmail.com'
+}
+
+}
